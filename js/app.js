@@ -14,9 +14,6 @@ async function listRepos() {
     tableTitle.innerText = `Public Repositores for ${gitUser}` // Add the table title
 
     for (let i in repos) {
-        // Create a new row for each element in the object
-
-
         // If no description was given, add a note
         if (repos[i].description === null) {
             repos[i].description = 'No description has been entered for this repository.'
@@ -34,28 +31,6 @@ async function listRepos() {
         firstCell.innerText = repos[i].name;
         secondCell.innerText = repos[i].description;
         thirdCell.insertAdjacentHTML('afterbegin', `<a href="${repos[i].html_url}" target="_blank">${repos[i].html_url}</a>`);
-
-
-        // Build each cell
-        // newRow.appendChild(newCell);
-        // newCell.innerText = repos[i].name;
-
-
-        // newRow.appendChild(newCell);
-        // newCell.innerText = repos[i].description;
-
-        // newRow.appendChild(newCell);
-        // newCell.innerText = repos[i].html_url;
-
-        // row.innerHTML = (`<tr>
-        //                     <td>${repos[i].name}</td>
-        //                     <td>${repos[i].description}</td>
-        //                     <td><a href="${repos[i].html_url}" target="_new">${repos[i].html_url}</a></td>
-        //                   </tr>`
-        // )
-
-        // Add the row to the table
-        // tBody.appendChild(row);
     }
 }
 
