@@ -7,7 +7,6 @@ async function listRepos() {
     // TODO: Add error checking for failed FETCH
 
     // Build the output table
-
     const tableTitle = document.getElementById('tableTitle');
     const tBody = document.getElementById('tBody');
 
