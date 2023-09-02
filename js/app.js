@@ -10,7 +10,7 @@ async function listRepos() {
     const tableTitle = document.getElementById('tableTitle');
     const tBody = document.getElementById('tBody');
 
-    tableTitle.innerText = `Public Repositores for ${gitUser}` // Add the table title
+    tableTitle.innerText = `Public Repositories for ${gitUser}` // Add the table title
 
     for (let i in repos) {
         // If no description was given, add a note
