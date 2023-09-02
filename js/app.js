@@ -22,6 +22,7 @@ async function listRepos() {
         let htmlLink = document.createElement('a');
         let linkText = document.createTextNode(`${repos[i].html_url}`);
         htmlLink.appendChild(linkText);
+        htmlLink.target = '_blank'; // Make it open in a new window/tab
         htmlLink.href = `${repos[i].html_url}`;
 
         // Insert a new row
