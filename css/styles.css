@@ -19,10 +19,15 @@ td {
 
 th {
     background-color: #3f87a6;
+    color: #fff;
 }
 
 tr:nth-of-type(even) {
-    background-color: #e4f0f5;
+    background-color: #b4e3f1;
+}
+
+tr:nth-of-type(odd) {
+    background-color: #cdeef8;
 }
 
 thead {
@@ -30,5 +35,11 @@ thead {
 }
 
 caption {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.bottom {
+    text-align: center;
     font-weight: bold;
 }
