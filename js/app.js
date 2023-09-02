@@ -7,7 +7,7 @@ async function listRepos() {
     // TODO: Add error checking for failed FETCH
 
     // Build the output table
-    const htTable = document.getElementById("repos");
+    const tBody = document.getElementById("tBody");
     const tableTitle = document.getElementById("tableTitle");
 
     tableTitle.innerHTML = `Public Repositores for ${gitUser}` // Add the table title
@@ -30,7 +30,7 @@ async function listRepos() {
         )
 
         // Add the row to the table
-        htTable.appendChild(row);
+        tBody.appendChild(row);
     }
 }
 
