@@ -1,5 +1,5 @@
 async function listRepos() {
-    const gitUser = 'f-adams';  // User's GitHub username
+    const gitUser = 'F-Adams';  // User's GitHub username
     const gitUrl = `https://api.github.com/users/${gitUser}/repos`; // URL for API Call
     const response = await fetch(gitUrl);   // Fetch the repository list
     const repos = await response.json();    // Wait for the JSON response
