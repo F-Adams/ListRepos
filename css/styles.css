@@ -23,11 +23,7 @@ th {
 }
 
 tr:nth-of-type(even) {
-    background-color: #b4e3f1;
-}
-
-tr:nth-of-type(odd) {
-    background-color: #cdeef8;
+    background-color: #eee;
 }
 
 thead {

@@ -18,6 +18,12 @@ async function listRepos() {
             repos[i].description = 'No description has been entered for this repository.'
         }
 
+        // Create the hyperlink for the repository URL
+        let htmlLink = document.createElement('a');
+        let linkText = document.createTextNode(`${repos[i].html_url}`);
+        htmlLink.appendChild(linkText);
+        htmlLink.href = `${repos[i].html_url}`;
+
         // Insert a new row
         let newRow = tBody.insertRow(i);
 
@@ -29,7 +35,7 @@ async function listRepos() {
         // Add the object data to the cells
         firstCell.innerText = repos[i].name;
         secondCell.innerText = repos[i].description;
-        thirdCell.insertAdjacentHTML('afterbegin', `<a href="${repos[i].html_url}" target="_blank">${repos[i].html_url}</a>`);
+        thirdCell.appendChild(htmlLink);
     }
 }
 
