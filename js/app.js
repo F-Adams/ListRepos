@@ -1,10 +1,10 @@
-async function listRepos() {
-    const gitUser = 'F-Adams';  // User's GitHub username
+async function listRepos(gitUser) {
     const gitUrl = `https://api.github.com/users/${gitUser}/repos`; // URL for API Call
     const response = await fetch(gitUrl);   // Fetch the repository list
     const repos = await response.json();    // Wait for the JSON response
 
     // TODO: Add error checking for failed FETCH
+    // TODO: Build full table programmatically
 
     // Build the output table
     const tableTitle = document.getElementById('tableTitle');
@@ -40,4 +40,4 @@ async function listRepos() {
     }
 }
 
-listRepos();
+listRepos('Google');
