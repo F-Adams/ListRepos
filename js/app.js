@@ -1,7 +1,12 @@
 async function listRepos(gitUser) {
+
+    // Start timing the function
+    let start = Date.now();
+
     const gitUrl = `https://api.github.com/users/${gitUser}/repos`; // URL for API Call
     const response = await fetch(gitUrl);   // Fetch the repository list
     const repos = await response.json();    // Wait for the JSON response
+    let numRepos = 0;
 
     // TODO: Add error checking for failed FETCH
     // TODO: Build full table programmatically
@@ -9,6 +14,7 @@ async function listRepos(gitUser) {
     // Build the output table
     const tableTitle = document.getElementById('tableTitle');
     const tBody = document.getElementById('tBody');
+    const result = document.getElementById('result');
 
     tableTitle.innerText = `Public Repositories for ${gitUser}` // Add the table title
 
@@ -37,7 +43,15 @@ async function listRepos(gitUser) {
         firstCell.innerText = repos[i].name;
         secondCell.innerText = repos[i].description;
         thirdCell.appendChild(htmlLink);
+        numRepos++;
     }
+
+    // Finish timing the function
+    let timeTaken = Date.now() - start;
+
+    // Write the timing results
+    result.innerText = 'Found ' + numRepos + ' repositories in ' + timeTaken / 1000 + ' seconds';
+    console.log('Total time taken : ' + timeTaken + ' milliseconds for ' + numRepos + ' repos');
 }
 
-listRepos('Google');
+listRepos('F-Adams');

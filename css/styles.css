@@ -39,3 +39,10 @@ caption {
     text-align: center;
     font-weight: bold;
 }
+
+.result {
+    background-color: #3f87a6;
+    color: #fff;
+    font-weight: bold;
+    text-align: right;
+}
