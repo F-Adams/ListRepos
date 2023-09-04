@@ -54,4 +54,5 @@ async function listRepos(gitUser) {
     console.log('Total time taken : ' + timeTaken + ' milliseconds for ' + numRepos + ' repos');
 }
 
-listRepos('F-Adams');
+// TODO: Build a form to allow the user to input a GitHub username
+listRepos('colt');
