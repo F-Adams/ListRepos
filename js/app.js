@@ -9,6 +9,7 @@ async function listRepos(gitUser) {
     let numRepos = 0;
 
     // TODO: Add error checking for failed FETCH
+    // TODO: Handle result pagination
     // TODO: Build full table programmatically
 
     // Build the output table
