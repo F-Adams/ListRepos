@@ -122,19 +122,22 @@ searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     // Get the user submitted GitHub username to search for
-    let searchTerm = document.getElementById('gitUser');
+    let inputField = document.getElementById('gitUser');
+    let searchTerm = inputField.value;
 
     // Handle the input
-    if (searchTerm.value === '') {
-        // If no username was submitted, let's use a hard coded default (This would not happen in production)
+    if (searchTerm === '') {
+        // If no username was submitted, let's use a random hard coded default (This would not happen in production)
         // TODO: Implement proper input validation and error handling
-        gitUser = 'F-Adams';
+        let randomNames = ['Amzn', 'AWS', 'F-Adams', 'Google', 'Pluralsight', 'GitHub', 'CodeLouisville', 'Facebook', 'YouTube', 'Microsoft', 'Apple'];
+        let imFeelingLucky = Math.floor(Math.random() * randomNames.length);
+        gitUser = randomNames[imFeelingLucky];
     } else {
-        gitUser = searchTerm.value;
+        gitUser = searchTerm;
     }
 
     // Clear the form input
-    searchTerm.value = '';
+    inputField.value = '';
 
     listRepos(gitUser);
 });
