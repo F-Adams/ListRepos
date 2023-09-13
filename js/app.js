@@ -129,7 +129,7 @@ searchForm.addEventListener('submit', (e) => {
     if (searchTerm === '') {
         // If no username was submitted, let's use a random hard coded default (This would not happen in production)
         // TODO: Implement proper input validation and error handling
-        let randomNames = ['Amzn', 'Apple', 'AWS', 'CodeLouisville', 'F-Adams', 'Facebook', 'GitHub', 'Google', 'Hongiat', 'Microsoft', 'Pluralsight', 'YouTube'];
+        let randomNames = ['Amzn', 'Apple', 'AWS', 'CodeLouisville', 'F-Adams', 'Facebook', 'GitHub', 'Google', 'Hongkiat', 'Microsoft', 'Pluralsight', 'YouTube'];
         let imFeelingLucky = Math.floor(Math.random() * randomNames.length);
         gitUser = randomNames[imFeelingLucky];
     } else {
