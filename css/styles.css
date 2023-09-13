@@ -1,14 +1,48 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-table {
-    width: 75vw;
+h1,
+thead,
+.bottom {
+    text-align: center;
+    font-weight: bold;
+}
+
+.searchForm {
+    text-align: center;
+    border-bottom: 1px solid #000;
+}
+
+.searchBox,
+.searchButton {
+    margin: 25px 10px;
+    padding: 5px;
+}
+
+.searchBox {
+    width: 300px;
+    border: 1px solid #000;
+    background-color: #eee;
+}
+
+.searchButton {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* .searchResults {
+    width: 85vw;
     margin: 1.5em auto;
+} */
+
+.resultTable {
     border-collapse: collapse;
-    border: 2px solid #ddd;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 2px solid #f00;
+    width: 85vw;
+    margin: 1.5em auto;
 }
 
 th,
@@ -26,18 +60,9 @@ tr:nth-of-type(even) {
     background-color: #eee;
 }
 
-thead {
-    text-align: center;
-}
-
-caption {
+.tableCaption {
     font-weight: bold;
     font-size: 1.5em;
-}
-
-.bottom {
-    text-align: center;
-    font-weight: bold;
 }
 
 .result {
