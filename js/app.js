@@ -111,7 +111,6 @@ function displayResults(result, howLong, pagingLinks) {
         tblBodyCell = document.createElement('td');
         tblBodyCell.appendChild(htmlLink);
         tblBodyRow.appendChild(tblBodyCell);
-
         tblBody.appendChild(tblBodyRow);
 
         // Increment the repo counter
