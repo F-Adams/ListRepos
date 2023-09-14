@@ -6,7 +6,7 @@ function logInfo(info, clearConsole = false) {
     if (info !== '') {
         if (clearConsole === true) {
             console.clear();
-        }
+        };
         console.log(info);
     };
 };
@@ -57,7 +57,7 @@ function displayResults(result, howLong, pagingLinks) {
     // Add a caption to the table
     const tblTitle = document.createElement('caption');
     tblTitle.classList.add('tableCaption');
-    tblTitle.innerText = `Public Repositories for ${gitUser}`
+    tblTitle.innerText = `Public Repositories for ${gitUser}`;
     tbl.appendChild(tblTitle);
 
     // Build the THEAD 
@@ -90,22 +90,22 @@ function displayResults(result, howLong, pagingLinks) {
     for (let i in result) {
         // If no description was given, add a note
         if (result[i].description === null) {
-            result[i].description = 'No description has been entered for this repository.'
+            result[i].description = 'No description has been entered for this repository.';
         }
 
         // Create the hyperlink for the repository URL
         let htmlLink = document.createElement('a');
-        htmlLink.innerText = `${result[i].html_url}`
+        htmlLink.innerText = `${result[i].html_url}`;
         htmlLink.target = '_blank'; // Make it open in a new window/tab
         htmlLink.href = `${result[i].html_url}`;
 
         const tblBodyRow = document.createElement('tr');
         let tblBodyCell = document.createElement('td');
-        tblBodyCell.innerText = `${result[i].name}`
+        tblBodyCell.innerText = `${result[i].name}`;
         tblBodyRow.appendChild(tblBodyCell);
 
         tblBodyCell = document.createElement('td');
-        tblBodyCell.innerText = `${result[i].description}`
+        tblBodyCell.innerText = `${result[i].description}`;
         tblBodyRow.appendChild(tblBodyCell);
 
         tblBodyCell = document.createElement('td');
