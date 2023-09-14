@@ -1,19 +1,50 @@
-async function listRepos(gitUser) {
+// Create a function that simply writes information to the console.
+// Function accepts two parameters:
+// info: the information to be written to the console (String, object, array, etc)
+// clearConsole: If set to TRUE, clear the console before writing text. Defaults to FALSE
+function logInfo(info, clearConsole = false) {
+    if (info !== '') {
+        if (clearConsole === true) {
+            console.clear();
+        }
+        console.log(info);
+    };
+};
 
-    // Start timing the function
+// displayError(); function.  For now all it does is log the response code to the console
+// Script execution is halted at that point
+// The completed function should display a message reporting information about the error
+function displayError(errorCode) {
+    logInfo('There was an error! ' + errorCode);
+};
+
+// This is the function that calls the API and handles the response.
+// The user-supplied GitHub useranme is passed in from the form.
+// if RESPONSE.MESSAGE is '200' then the JSON object is sent to the displayResults function, 
+// along with the time taken for the request, and the pagination links (if any)
+// Otherwise the displayError function is called to show an error message based on RESPONSE.STATUS
+// Possible RESPONSE.STATUS states:
+async function getData(gitUser) {
     let start = Date.now();
+    logInfo('Starting request...', true);
 
-    const gitUrl = `https://api.github.com/users/${gitUser}/repos`; // URL for API Call
-    const response = await fetch(gitUrl);   // Fetch the repository list
-    const repos = await response.json();    // Wait for the JSON response
+    const endPoint = `https://api.github.com/users/${gitUser}/repos`; // URL for API Call
+    const response = await fetch(endPoint);   // Fetch the repository list
 
-    // Finish timing the function
-    let timeTaken = Date.now() - start;
+    if (response.status === 200) {
+        const paginationLink = response.headers.get('link');
+        const repos = await response.json();    // Wait for the JSON response
+        let timeTaken = Date.now() - start;
+        displayResults(repos, timeTaken, paginationLink);
+    } else {
+        displayError(response.status);
+    };
+};
 
-    // TODO: Add error checking for failed FETCH
-    // TODO: Handle result pagination
-
-    // Display the search results
+// Display the resutls.
+// Needs two parameters: The data to be displayed, and the timeTaken value from the getData function
+// The third parameter may or may not contain any data. If it does it will be used in the buildPageLinks function
+function displayResults(result, howLong, pagingLinks) {
     // Get the SECTION element, and clear it of any previously generated HTML
     const resultSection = document.getElementById('resultTable');
     resultSection.innerText = '';
@@ -31,12 +62,8 @@ async function listRepos(gitUser) {
 
     // Build the THEAD 
     const tblHead = document.createElement('thead');
-    tbl.appendChild(tblHead);
-
-    // Add a row to the THEAD (TR element)
     const tblHeadRow = document.createElement('tr');
 
-    // Add the header cells to the row (TH element)
     let tblHeadCell = document.createElement('th');
     tblHeadCell.innerText = 'Repository Name';
     tblHeadRow.appendChild(tblHeadCell);
@@ -48,8 +75,6 @@ async function listRepos(gitUser) {
     tblHeadCell = document.createElement('th');
     tblHeadCell.innerText = 'URL';
     tblHeadRow.appendChild(tblHeadCell);
-
-    // Append the row of TH elements to the THEAD
     tblHead.appendChild(tblHeadRow);
 
     // Append the THEAD to the table
@@ -57,61 +82,67 @@ async function listRepos(gitUser) {
 
     // Build the TBODY (where the search results are displayed)
     const tblBody = document.createElement('tbody');
-    tbl.appendChild(tblBody);
 
     // Build and display the results
     // Initialize a variable to count the repos
     let numRepos = 0;
 
-    for (let i in repos) {
+    for (let i in result) {
         // If no description was given, add a note
-        if (repos[i].description === null) {
-            repos[i].description = 'No description has been entered for this repository.'
+        if (result[i].description === null) {
+            result[i].description = 'No description has been entered for this repository.'
         }
 
         // Create the hyperlink for the repository URL
         let htmlLink = document.createElement('a');
-        htmlLink.innerText = `${repos[i].html_url}`
+        htmlLink.innerText = `${result[i].html_url}`
         htmlLink.target = '_blank'; // Make it open in a new window/tab
-        htmlLink.href = `${repos[i].html_url}`;
+        htmlLink.href = `${result[i].html_url}`;
 
-        // Add a row to the TBODY
         const tblBodyRow = document.createElement('tr');
-        tblBody.appendChild(tblBodyRow);
-
-        // Add the result cells to the row (TD element)
         let tblBodyCell = document.createElement('td');
-        tblBodyCell.innerText = `${repos[i].name}`
+        tblBodyCell.innerText = `${result[i].name}`
         tblBodyRow.appendChild(tblBodyCell);
 
         tblBodyCell = document.createElement('td');
-        tblBodyCell.innerText = `${repos[i].description}`
+        tblBodyCell.innerText = `${result[i].description}`
         tblBodyRow.appendChild(tblBodyCell);
 
         tblBodyCell = document.createElement('td');
         tblBodyCell.appendChild(htmlLink);
         tblBodyRow.appendChild(tblBodyCell);
 
+        tblBody.appendChild(tblBodyRow);
+
         // Increment the repo counter
         numRepos++;
     }
+    // Append the TBODY to the table
+    tbl.appendChild(tblBody);
 
     // Build the TFOOT
     const tblFooter = document.createElement('tfoot');
-    tbl.appendChild(tblFooter);
-
     const tblFooterRow = document.createElement('tr');
-    tblFooter.appendChild(tblFooterRow);
-
     const tblFooterCell = document.createElement('td');
+
     tblFooterCell.classList.add('result');
     tblFooterCell.colSpan = 3;
-    tblFooterCell.innerText = `Found ${numRepos} repositories in ${timeTaken / 1000} seconds`;
-    tblFooterRow.appendChild(tblFooterCell);
+    tblFooterCell.innerText = `Found ${numRepos} repositories in ${howLong / 1000} seconds`;
 
-    console.clear();
-    console.log(`Total time taken: ${timeTaken} milliseconds for ${numRepos} repos for GitHub user: ${gitUser}`);
-    console.log(tbl);
+    tblFooterRow.appendChild(tblFooterCell);
+    tblFooter.appendChild(tblFooterRow);
+
+    // Append the TFOOT to the table
+    tbl.appendChild(tblFooter);
+
+    // TODO: Build the pagination links
+
+    // Log some information the the console
+    if (pagingLinks) {
+        logInfo(pagingLinks);
+    };
+    logInfo(`Total time taken: ${howLong} milliseconds for ${numRepos} repos for GitHub user: ${gitUser}`);
+    logInfo(tbl); // All generated HTML is output to the console, for QA purposes
 }
 
 // Get the form element
@@ -139,5 +170,5 @@ searchForm.addEventListener('submit', (e) => {
     // Clear the form input
     inputField.value = '';
 
-    listRepos(gitUser);
+    getData(gitUser);
 });
