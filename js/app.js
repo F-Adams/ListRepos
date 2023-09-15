@@ -18,31 +18,35 @@ function displayError(errorCode) {
     logInfo('There was an error! ' + errorCode);
 };
 
+// TODO: Add function to build the pgaination links
+
 // This is the function that calls the API and handles the response.
 // The user-supplied GitHub useranme is passed in from the form.
 // if RESPONSE.MESSAGE is '200' then the JSON object is sent to the displayResults function, 
 // along with the time taken for the request, and the pagination links (if any)
 // Otherwise the displayError function is called to show an error message based on RESPONSE.STATUS
 // Possible RESPONSE.STATUS states:
-async function getData(gitUser) {
+async function getData(gitUser, endPoint) {
     let start = Date.now();
     logInfo('Starting request...', true);
 
-    const endPoint = `https://api.github.com/users/${gitUser}/repos`; // URL for API Call
-    const response = await fetch(endPoint);   // Fetch the repository list
+    const baseURL = 'https://api.github.com/users';                // Base URL for API call
+    const queryString = `${baseURL}/${gitUser}/${endPoint}`;       // Constructed URL for API Call
+    logInfo(`Sending query to ${queryString}`);                    // Log the query sent to the API in the console
+    const response = await fetch(queryString);                     // Fetch the requested data
 
     if (response.status === 200) {
         const paginationLink = response.headers.get('link');
-        const repos = await response.json();    // Wait for the JSON response
+        const gitQuery = await response.json();                 // Wait for the JSON response
         let timeTaken = Date.now() - start;
-        displayResults(repos, timeTaken, paginationLink);
+        displayResults(gitQuery, timeTaken, paginationLink);
     } else {
         displayError(response.status);
     };
 };
 
 // Display the resutls.
-// Needs two parameters: The data to be displayed, and the timeTaken value from the getData function
+// Needs three parameters: The data to be displayed, and the timeTaken value from the getData function, and "Link" header
 // The third parameter may or may not contain any data. If it does it will be used in the buildPageLinks function
 function displayResults(result, howLong, pagingLinks) {
     // Get the SECTION element, and clear it of any previously generated HTML
@@ -96,7 +100,7 @@ function displayResults(result, howLong, pagingLinks) {
         // Create the hyperlink for the repository URL
         let htmlLink = document.createElement('a');
         htmlLink.innerText = `${result[i].html_url}`;
-        htmlLink.target = '_blank'; // Make it open in a new window/tab
+        htmlLink.target = '_blank';                             // Make it open in a new window/tab
         htmlLink.href = `${result[i].html_url}`;
 
         const tblBodyRow = document.createElement('tr');
@@ -141,8 +145,8 @@ function displayResults(result, howLong, pagingLinks) {
         logInfo(pagingLinks);
     };
     logInfo(`Total time taken: ${howLong} milliseconds for ${numRepos} repos for GitHub user: ${gitUser}`);
-    logInfo(tbl); // All generated HTML is output to the console, for QA purposes
-}
+    logInfo(tbl);                                               // All generated HTML is output to the console, for QA purposes
+};
 
 // Get the form element
 const searchForm = document.getElementById('searchForm');
@@ -153,6 +157,7 @@ searchForm.addEventListener('submit', (e) => {
 
     // Get the user submitted GitHub username to search for
     let inputField = document.getElementById('gitUser');
+    let endPoint = 'repos';   // The data we want to look for. This will be chosen by the user in the future, to allow for more search optionse
     let searchTerm = inputField.value;
 
     // Handle the input
@@ -169,5 +174,5 @@ searchForm.addEventListener('submit', (e) => {
     // Clear the form input
     inputField.value = '';
 
-    getData(gitUser);
+    getData(gitUser, endPoint);
 });
